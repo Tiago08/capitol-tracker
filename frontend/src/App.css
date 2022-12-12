@@ -1,0 +1,21 @@
+:root {
+  --accent: #f78f57
+}
+
+.app {
+  margin: 0 15% 0 15%;
+}
+
+.header h1 {
+  color: var(--accent);
+  font-size: 8vh;
+}
+
+.header h6 {
+  color: var(--accent);
+  font-size: 2vh;
+}
+
+.header .sub-heading {
+  margin-top: -6vh;
+}

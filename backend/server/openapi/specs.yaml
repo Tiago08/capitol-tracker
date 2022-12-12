@@ -1,0 +1,192 @@
+openapi: "3.0.0"
+
+info:
+  title: Capitol Tracker Python API
+  version: "1.0"
+servers:
+  - url: http://localhost:9090/v1
+
+paths:
+  /_health:
+    get:
+      tags:
+      - meta
+      operationId: api.health.get
+      summary: Server is up
+      description: Server is up
+      responses:
+        200:
+          description: Server is up
+  /event:
+    get:
+      tags:
+      - event
+      operationId: api.event.get
+      summary: Found events
+      description: Events matching search
+      parameters:
+        - in: query
+          name: namespace
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Events object array
+    post:
+      tags:
+      - event
+      operationId: api.event.post
+      summary: Create event
+      description: Create new entry in event measurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name of event
+                  type: string
+                effect:
+                  description: Effect of event
+                  type: string
+                namespace:
+                  description: Effect of event
+                  type: string
+                start:
+                  description: Timestamp in MM/DD/YYYY format
+                  type: string
+                end:
+                  description: Timestamp in MM/DD/YYYY format
+                  type: string
+            example:
+              name: Event name
+              effect: Some way the even affected the world
+              namespace: protests
+              start: 04/10/1993
+              end: 04/10/1993
+      responses:
+        201:
+          description: Event created
+  /event-candidate:
+    get:
+      tags:
+      - event
+      operationId: api.event.get_candidate
+      summary: Found event candidates
+      description: Event candidates matching search
+      parameters:
+        - in: query
+          name: namespace
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Event candidates object array
+    post:
+      tags:
+      - event
+      operationId: api.event.post_candidate
+      summary: Create event candidate
+      description: Create new entry in event_candidate measurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name of event
+                  type: string
+                effect:
+                  description: Effect of event
+                  type: string
+                namespace:
+                  description: Effect of event
+                  type: string
+                start:
+                  description: Timestamp in MM/DD/YYYY format
+                  type: string
+                end:
+                  description: Timestamp in MM/DD/YYYY format
+                  type: string
+            example:
+              name: Event name
+              effect: Some way the even affected the world
+              namespace: protests
+              start: 04/10/1993
+              end: 04/10/1993
+      responses:
+        201:
+          description: Candidate created
+  /event-candidate/promote:
+    put:
+      tags:
+      - event
+      operationId: api.event.promote_candidate
+      summary: Promote candidate to event
+      description: Move candidate by id to the events measurement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+            example:
+            - 64e0e091-be77-489b-a8a1-9f4173b716a8
+            - 64378c05-8b29-47f3-8288-f8f8467c9a91
+            - 4e4300ab-c7cd-4342-85ec-7cd597829047
+      responses:
+        200:
+          description: Event was promoted
+  /poll:
+    get:
+      tags:
+      - poll
+      operationId: api.poll.search
+      parameters:
+        - in: query
+          name: measurements
+          schema:
+            type: string
+          description: Measurements to find
+      summary: Search poll data sets
+      description: Seaerch poll data tsets
+      responses:
+        200:
+          description: Search results
+    post:
+      tags:
+      - poll
+      operationId: api.poll.post
+      summary: Batch poll data upload
+      description: Batch poll data upload
+      responses:
+        201:
+          description: Batch created
+  /workers/congressional-outlook/:
+    post:
+      tags:
+      - worker
+      operationId: api.workers.congressional_outlook.post
+      summary: Import congressional outlook ratings
+      description: Imports congressional outlook ratings to db
+      responses:
+        201:
+          description: data set imported
+  /workers/trump-approval-rating/:
+    post:
+      tags:
+      - worker
+      operationId: api.workers.trump_approval_rating.post
+      summary: Import trump approval ratings
+      description: Imports approval ratings to db
+      responses:
+        201:
+          description: data set imported
